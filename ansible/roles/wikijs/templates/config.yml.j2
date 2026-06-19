@@ -1,0 +1,17 @@
+# Fichier généré par Ansible — ne pas éditer à la main.
+port: {{ wikijs_port }}
+bindIP: 0.0.0.0
+
+db:
+  type: postgres
+  host: {{ db_host }}
+  port: 5432
+  user: {{ db_user }}
+  pass: {{ db_pass }}
+  db: {{ db_name }}
+  ssl: false
+
+ssl:
+  enabled: false
+
+logLevel: info

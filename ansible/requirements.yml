@@ -1,0 +1,5 @@
+---
+# Collections Ansible requises par le projet.
+# Installation : ansible-galaxy collection install -r requirements.yml
+collections:
+  - name: community.postgresql   # modules pour gérer PostgreSQL (db, users, pg_hba)

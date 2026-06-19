@@ -1,0 +1,9 @@
+---
+- name: Recharger systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Redemarrer Wikijs
+  ansible.builtin.service:
+    name: wikijs
+    state: restarted

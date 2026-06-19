@@ -1,0 +1,16 @@
+---
+# Playbook principal : applique le bon rôle sur le bon groupe de machines.
+
+# 1) La VM "db" reçoit le rôle PostgreSQL
+- name: Configurer la base de données PostgreSQL
+  hosts: db
+  become: true            # exécuter les tâches en root (sudo)
+  roles:
+    - postgresql
+
+# 2) La VM "web" reçoit le rôle Wiki.js (dépend que la db soit prête avant)
+- name: Configurer le serveur web Wiki.js
+  hosts: web
+  become: true
+  roles:
+    - wikijs

@@ -1,0 +1,6 @@
+---
+# Handlers : déclenchés uniquement quand une tâche les "notifie".
+- name: Redemarrer PostgreSQL
+  ansible.builtin.service:
+    name: postgresql
+    state: restarted

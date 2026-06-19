@@ -1,0 +1,18 @@
+# Variables centralisées du projet.
+# >>> À ADAPTER : le mot de passe et les IP privées des deux VM <<<
+
+# --- Base de données PostgreSQL ---
+db_name: wiki
+db_user: wikijs
+db_pass: "ChangeMoi_MotDePasseFort"   # ⚠️ à chiffrer avec ansible-vault (voir README)
+
+# --- Réseau : adresses IP PRIVÉES des deux VM (réseau interne) ---
+# IP privée de la VM "db", telle que la VM "web" la contacte
+db_host: "10.0.50.51"
+# IP privée de la VM "web", autorisée à se connecter à PostgreSQL
+web_private_ip: "10.0.50.50"
+
+# --- Node.js / Wiki.js ---
+node_version: "22"        # Wiki.js 2.5 recommande Node.js 22
+wikijs_home: /opt/wikijs
+wikijs_port: 3000         # port HTTP exposé par Wiki.js

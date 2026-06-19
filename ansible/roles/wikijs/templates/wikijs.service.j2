@@ -1,0 +1,15 @@
+[Unit]
+Description=Wiki.js
+After=network.target
+
+[Service]
+Type=simple
+User=wikijs
+Group=wikijs
+WorkingDirectory={{ wikijs_home }}
+ExecStart=/usr/bin/node server
+Restart=on-failure
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
