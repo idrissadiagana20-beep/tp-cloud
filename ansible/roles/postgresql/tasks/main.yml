@@ -1,12 +1,16 @@
 ---
-# Rôle PostgreSQL : installe la base et la prépare pour Wiki.js.
+- name: Installer ACL (requis pour become_user avec Ansible)
+  ansible.builtin.apt:
+    name: acl
+    state: present
+    update_cache: false
 
 - name: Installer PostgreSQL et la librairie Python requise par Ansible
   ansible.builtin.apt:
     name:
       - postgresql
       - postgresql-contrib
-      - python3-psycopg2   # nécessaire aux modules postgresql d'Ansible
+      - python3-psycopg2
     state: present
     update_cache: true
 
@@ -16,8 +20,6 @@
     state: started
     enabled: true
 
-# On détecte la version installée pour trouver le bon chemin de config
-# (Ubuntu 22.04 = PostgreSQL 14, Ubuntu 24.04 = PostgreSQL 16, etc.)
 - name: Détecter la version de PostgreSQL
   ansible.builtin.command: ls /etc/postgresql
   register: pg_dir
@@ -27,7 +29,7 @@
   ansible.builtin.set_fact:
     pg_version: "{{ pg_dir.stdout_lines[0] }}"
 
-- name: Autoriser PostgreSQL à écouter sur le réseau (pas seulement localhost)
+- name: Autoriser PostgreSQL à écouter sur le réseau
   community.postgresql.postgresql_set:
     name: listen_addresses
     value: "*"
@@ -43,7 +45,7 @@
   become: true
   become_user: postgres
 
-- name: Créer la base de données (propriétaire = utilisateur Wiki.js)
+- name: Créer la base de données
   community.postgresql.postgresql_db:
     name: "{{ db_name }}"
     owner: "{{ db_user }}"
@@ -51,7 +53,7 @@
   become: true
   become_user: postgres
 
-- name: N'autoriser QUE la VM web à se connecter à la base (sécurité)
+- name: Autoriser uniquement la VM web à se connecter
   community.postgresql.postgresql_pg_hba:
     dest: "/etc/postgresql/{{ pg_version }}/main/pg_hba.conf"
     contype: host
